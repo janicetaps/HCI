@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janice Tapanan | Creative Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@400;700&family=Poppins:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Global & Animated Background --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #e3ffe7, #d9e7ff, #f3d9ff, #ffe3e3);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            color: #333;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Floating Navbar --- */
+        #navbar {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-100%);
+        }
+        #navbar.visible {
+            transform: translateY(0);
+        }
+
+        /* --- Typography --- */
+        .marker-font { font-family: 'Permanent Marker', cursive; }
+        .handwriting { font-family: 'Caveat', cursive; }
+        .mono-font { font-family: 'Fira Code', monospace; }
+
+        /* --- Splash Screen --- */
+        #splash-screen {
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .term-cursor::after {
+            content: '█';
+            animation: blink 1s infinite;
+        }
+        .btn-glitch {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .btn-glitch:hover {
+            background: #4ade80;
+            color: #111827;
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* --- Main Animations & Hero Blob --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .cursor-main::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* This fixes the harsh square box around your picture */
+        .blob-shape {
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        @keyframes morph {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+        }
+
+        /* Glowing Orbs Behind Picture */
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: orbit 10s linear infinite;
+        }
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+        }
+
+        /* --- Scrapbook Elements --- */
+        .scrapbook-bg {
+            background-image: radial-gradient(rgba(0, 0, 0, 0.1) 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+        .paper-scrap {
+            background-color: #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), 0 0 15px rgba(0,0,0,0.05); /* Made shadows much stronger */
+            position: relative;
+            border: 2px solid #f3f4f6;
+        }
+        .jagged-edge {
+            clip-path: polygon(0% 0%, 100% 1%, 99% 100%, 1% 99%, 0% 50%);
+        }
+        .tape {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 90px;
+            height: 30px;
+            background-color: rgba(240, 230, 200, 0.85);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .tape-corner {
+            top: -10px;
+            left: -10px;
+            transform: rotate(-45deg);
+        }
+
+        /* --- Phone Mockups --- */
+        .phone-mockup {
+            width: 100%;
+            max-width: 300px;
+            height: 600px;
+            border: 14px solid #1f2937;
+            border-radius: 40px;
+            position: relative;
+            background: #ffffff;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+        .phone-mockup:hover {
+            transform: translateY(-10px);
+        }
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: #1f2937;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 20;
+        }
+        .search-bar-container {
+            margin-top: 35px;
+            padding: 10px 15px;
+            background: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            z-index: 10;
+        }
+        .phone-search {
+            width: 100%;
+            background: #e5e7eb;
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #6b7280;
+        }
+        .phone-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9fafb;
+            margin: 10px;
+            border-radius: 10px;
+            border: 2px dashed #cbd5e1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Gallery Animations --- */
+        .gallery-item-container {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .gallery-item {
+            transition: opacity 0.4s ease-in-out, transform 0.6s ease-out;
+        }
+        .fade-out {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="antialiased relative h-screen w-screen overflow-x-hidden">
+
+
+    <!-- TOP NAVIGATION BAR -->
+    <nav id="navbar" class="fixed top-0 w-full z-40 bg-white/40 backdrop-blur-md border-b border-white/50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4">
+            <ul class="flex flex-wrap justify-center items-center gap-4 md:gap-10 py-4 font-bold text-sm md:text-base text-gray-800 tracking-wide uppercase">
+                <li><a href="#hero" class="hover:text-indigo-600 hover:scale-110 transition-all inline-block">Home</a></li>
+                <li><a href="#scrapbook" class="hover:text-amber-600 hover:scale-110 transition-all inline-block">About Me</a></li>
+                <li><a href="#socials" class="hover:text-pink-600 hover:scale-110 transition-all inline-block">Social Accounts</a></li>
+                <li><a href="#likes" class="hover:text-green-600 hover:scale-110 transition-all inline-block">Things That I Like</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div id="main-content" class="h-screen w-full overflow-y-auto overflow-x-hidden hidden-scroll">
+        
+        <!-- 1. HERO SECTION -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center items-center text-center px-4 relative z-10 pt-20">
+            
+            <!-- Floating Decorative Background Elements -->
+            <div class="absolute left-10 md:left-32 top-1/3 text-4xl animate-[bounce_3s_infinite] opacity-60 drop-shadow-lg">✨</div>
+            <div class="absolute right-10 md:right-32 top-1/4 text-5xl animate-[bounce_4s_infinite_reverse] opacity-60 drop-shadow-lg">💻</div>
+            <div class="absolute left-20 md:left-40 bottom-1/3 text-4xl animate-[bounce_5s_infinite] opacity-60 drop-shadow-lg">🎨</div>
+            <div class="absolute right-20 md:right-40 bottom-1/4 text-5xl animate-[bounce_3.5s_infinite_reverse] opacity-60 drop-shadow-lg">☕</div>
+
+            <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 mb-4 drop-shadow-lg tracking-tight reveal active">
+                I'm <span id="typing-text" class="text-indigo-600 cursor-main"></span>
+            </h1>
+            
+            <!-- New Descriptive Subtitle -->
+            <p class="handwriting text-3xl md:text-4xl text-gray-700 mb-10 reveal active" style="transition-delay: 0.2s;">
+                IT Student 
+            </p>
+            
+            <!-- Bigger, morphing profile picture container -->
+            <div class="relative flex justify-center items-center reveal active mt-2 group">
+                <!-- Glowing animated orbs behind the image to make it less plain -->
+                <div class="glow-orb w-72 h-72 md:w-96 md:h-96 bg-indigo-400/60" style="animation-direction: normal;"></div>
+                <div class="glow-orb w-72 h-72 md:w-96 md:h-96 bg-pink-400/60" style="animation-direction: reverse; animation-duration: 15s;"></div>
+                
+                <!-- The actual image inside a morphing blob -->
+                <div class="blob-shape w-64 h-64 md:w-96 md:h-96 border-4 border-white z-10 bg-black group-hover:scale-105 transition-transform duration-500 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+                   <img src="profile.jpg" alt="Janice" class="w-full h-full object-cover object-bottom scale-[1.35]">
+                </div>
+            </div>
+
+            <!-- New Call To Action Button -->
+            <div class="absolute bottom-10 animate-bounce z-20">
+                <a href="#scrapbook" class="bg-indigo-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-indigo-600/30 hover:bg-indigo-500 hover:shadow-indigo-500/50 transition-all duration-300 border-2 border-indigo-400">
+                    Get To Know Me 👇
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. SCRAPBOOK SECTION ("WHO IS SHE?") -->
+        <section id="scrapbook" class="py-24 px-4 relative z-10 scrapbook-bg">
+            <div class="max-w-6xl mx-auto relative">
+                <h2 class="text-6xl md:text-8xl marker-font text-center text-amber-900 mb-20 transform -rotate-2 drop-shadow-md reveal">
+                    WHO <span class="text-gray-600 font-sans font-light text-5xl">IS</span> SHE?
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center relative">
+                    <!-- Left Column -->
+                    <div class="flex flex-col gap-10 z-20 reveal">
+                        <div class="paper-scrap jagged-edge p-6 transform -rotate-3 hover:rotate-0 transition duration-300">
+                            <div class="tape"></div>
+                            <h3 class="handwriting text-3xl font-bold text-amber-800 mb-3 border-b border-amber-200 pb-1">About me ♥</h3>
+                            <ul class="space-y-2 text-gray-800 font-medium text-lg">
+                                <li>♥ 20 years old</li>
+                                <li>♥ IT Student - BSIT-3C</li>
+                                <li>♥ Cebu City</li>
+                                <li>♥ Ambivert</li>
+                            </ul>
+                        </div>
+
+                        <div class="paper-scrap p-6 rounded-lg transform rotate-2 hover:-rotate-1 transition duration-300">
+                            <div class="tape tape-corner" style="left: 10px; transform: rotate(-45deg);"></div>
+                            <h3 class="handwriting text-2xl font-bold text-amber-800 mb-2">She lives by the mantra</h3>
+                            <p class="handwriting text-3xl text-gray-700 italic leading-tight">"Chase the experience, skip the excuse." ♡</p>
+                        </div>
+                    </div>
+
+                    <!-- Center Column -->
+                    <div class="relative flex justify-center z-10 reveal" style="transition-delay: 0.2s;">
+                        <div class="relative w-full max-w-sm">
+                            <div class="bg-white p-4 pb-16 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] transform rotate-1 hover:scale-105 transition duration-500 border border-gray-200">
+                                <img src="whole.jpg" alt="Center Portrait" class="w-full h-auto border border-gray-100">
+                                <p class="handwriting text-center mt-6 text-3xl font-bold text-gray-800">Me! ✨</p>
+                            </div>
+                            <div class="absolute -top-6 -right-6 text-5xl animate-pulse drop-shadow-lg">✨</div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="flex flex-col gap-10 z-20 reveal" style="transition-delay: 0.4s;">
+                        <div class="paper-scrap p-6 transform rotate-3 hover:rotate-0 transition duration-300 bg-[#5c4f45] text-white rounded-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)]">
+                            <div class="tape" style="background-color: rgba(255,255,255,0.6);"></div>
+                            <h3 class="handwriting text-3xl font-bold mb-3 border-b border-white/30 pb-1">Is a huge fan of</h3>
+                            <ul class="space-y-2 font-medium text-lg">
+                                <li>♪ Rex Orange</li>
+                                <li>♪ Taylor Swift</li>
+                                <li>♪ NIKI</li>
+                                <li>♪ Daniel Caesar</li>
+                            </ul>
+                            <div class="absolute bottom-4 right-4 text-6xl opacity-40">🎧</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="paper-scrap jagged-edge p-5 transform -rotate-2 hover:scale-105 transition">
+                                <h3 class="handwriting text-3xl font-bold text-amber-900 mb-2">Likes</h3>
+                                <ul class="text-base space-y-1 text-gray-800 font-semibold">
+                                    <li>🎨 Arts & Museum</li>
+                                    <li>☕ Matcha</li>
+                                    <li>🐶 Pets</li>
+                                    <li>🌸 Flowers</li>
+                                </ul>
+                            </div>
+                            <div class="paper-scrap jagged-edge p-5 transform rotate-2 hover:scale-105 transition">
+                                <h3 class="handwriting text-3xl font-bold text-amber-900 mb-2">Dislikes</h3>
+                                <ul class="text-base space-y-1 text-gray-800 font-semibold">
+                                    <li>× Ego</li>
+                                    <li>× Noise</li>
+                                    <li>× Fake</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. THINGS THAT I LIKE SECTION -->
+        <section id="likes" class="py-24 px-4 mb-20 relative z-10 pt-32">
+            <div class="max-w-5xl mx-auto bg-white/40 backdrop-blur-xl border border-white/60 rounded-3xl p-8 md:p-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] reveal">
+                <h2 class="text-4xl md:text-6xl marker-font text-center mb-10 text-gray-800 drop-shadow-sm">THINGS THAT I LIKE</h2>
+                
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button onclick="switchCategory('matcha')" id="btn-matcha" class="tab-btn active px-8 py-3 rounded-full font-bold text-lg border-2 border-green-600 bg-green-600 text-white shadow-lg hover:scale-105 transition duration-300">Matcha 🍵</button>
+                    <button onclick="switchCategory('mochi')" id="btn-mochi" class="tab-btn px-8 py-3 rounded-full font-bold text-lg border-2 border-amber-600 text-amber-700 bg-white/60 hover:bg-amber-100 shadow-md hover:scale-105 transition duration-300">My pet - MOCHI 🐶</button>
+                    <button onclick="switchCategory('sea')" id="btn-sea" class="tab-btn px-8 py-3 rounded-full font-bold text-lg border-2 border-blue-500 text-blue-600 bg-white/60 hover:bg-blue-100 shadow-md hover:scale-105 transition duration-300">Sea view 🌊</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Added Hover Effects Here -->
+                    <div class="gallery-item-container aspect-square overflow-hidden rounded-2xl shadow-xl border-4 border-white bg-gray-200 relative group cursor-pointer hover:shadow-2xl hover:-translate-y-2">
+                        <img id="gallery-img-1" src="matcha1.jpg" class="w-full h-full object-cover gallery-item group-hover:scale-110 group-hover:rotate-2" alt="Gallery Image 1">
+                    </div>
+                    
+                    <div class="gallery-item-container aspect-square overflow-hidden rounded-2xl shadow-xl border-4 border-white bg-gray-200 relative group cursor-pointer hover:shadow-2xl hover:-translate-y-2">
+                        <img id="gallery-img-2" src="matcha2.jpg" class="w-full h-full object-cover gallery-item group-hover:scale-110 group-hover:rotate-2" alt="Gallery Image 2">
+                    </div>
+
+                    <div class="gallery-item-container aspect-square overflow-hidden rounded-2xl shadow-xl border-4 border-white bg-gray-200 relative group cursor-pointer hover:shadow-2xl hover:-translate-y-2">
+                        <img id="gallery-img-3" src="matcha3.jpg" class="w-full h-full object-cover gallery-item group-hover:scale-110 group-hover:rotate-2" alt="Gallery Image 3">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. MY SOCIAL ACCOUNTS SECTION -->
+        <section id="socials" class="py-24 px-4 relative z-10 pt-32">
+            <div class="max-w-6xl mx-auto reveal">
+                <h2 class="text-5xl md:text-7xl marker-font text-center mb-20 text-gray-800 drop-shadow-sm">MY SOCIAL ACCOUNTS</h2>
+                
+                <div class="flex flex-col md:flex-row justify-center items-center md:items-stretch gap-10">
+                    <!-- Facebook Phone -->
+                    <div class="phone-mockup group">
+                        <div class="phone-notch"></div>
+                        <div class="search-bar-container">
+                            <div class="phone-search">
+                                <span class="text-blue-600 font-bold flex items-center"><svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg> Facebook</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="phone-content" style="border:none; padding: 0;">
+                            <img src="facebook.jpg" alt="Facebook Feed" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- Instagram Phone -->
+                    <div class="phone-mockup group">
+                        <div class="phone-notch"></div>
+                        <div class="search-bar-container">
+                            <div class="phone-search">
+                                <span class="text-pink-600 font-bold flex items-center"><svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="phone-content" style="border:none; padding: 0;">
+                            <img src="instagram.jpg" alt="Instagram Feed" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- TikTok Phone -->
+                    <div class="phone-mockup group">
+                        <div class="phone-notch"></div>
+                        <div class="search-bar-container">
+                            <div class="phone-search">
+                                <span class="text-black font-bold flex items-center"><svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.014 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="phone-content" style="border:none; padding: 0;">
+                            <img src="tiktok.jpg" alt="TikTok Feed" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- The footer was completely removed as requested -->
+
+    </div>
+
+    <script>
+        // --- 1. SHOW NAVBAR IMMEDIATELY ---
+        const navbar = document.getElementById('navbar');
+        setTimeout(() => {
+            navbar.classList.add('visible');
+        }, 100);
+
+        // --- 2. MAIN HERO TYPING ANIMATION ---
+        const textToType = "Janice Tapanan";
+        const typingElement = document.getElementById("typing-text");
+        let i = 0;
+
+        function startHeroTyping() {
+            if (i < textToType.length) {
+                typingElement.innerHTML += textToType.charAt(i);
+                i++;
+                setTimeout(startHeroTyping, 120);
+            }
+        }
+        
+        // Start the typing animation right away
+        setTimeout(startHeroTyping, 500);
+
+        // --- 3. SCROLL REVEAL LOGIC ---
+        const reveals = document.querySelectorAll('.reveal');
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        reveals.forEach(reveal => {
+            observer.observe(reveal);
+        });
+
+        // --- 4. INTERACTIVE GALLERY LOGIC WITH YOUR IMAGES ---
+        const galleryContent = {
+            matcha: {
+                color: 'green',
+                images: [ "matcha1.jpg", "matcha2.jpg", "matcha3.jpg" ]
+            },
+            mochi: {
+                color: 'amber',
+                images: [ "mochi1.jpg", "mochi2.jpg", "mochi3.jpg" ]
+            },
+            sea: {
+                color: 'blue',
+                images: [ "sea1.jpg", "sea2.jpg", "sea3.jpg" ]
+            }
+        };
+
+        function switchCategory(category) {
+            const img1 = document.getElementById('gallery-img-1');
+            const img2 = document.getElementById('gallery-img-2');
+            const img3 = document.getElementById('gallery-img-3');
+            const images = [img1, img2, img3];
+            
+            const allBtns = document.querySelectorAll('.tab-btn');
+            allBtns.forEach(btn => {
+                btn.className = btn.className.replace(/bg-\w+-\d+/g, 'bg-white/60');
+                btn.classList.remove('text-white');
+            });
+
+            const activeBtn = document.getElementById(`btn-${category}`);
+            const themeColor = galleryContent[category].color;
+            
+            activeBtn.classList.remove('bg-white/60');
+            if(themeColor === 'green') {
+                activeBtn.classList.add('bg-green-600', 'text-white');
+            } else if (themeColor === 'amber') {
+                activeBtn.classList.add('bg-amber-600', 'text-white');
+            } else {
+                activeBtn.classList.add('bg-blue-500', 'text-white');
+            }
+
+            images.forEach((img, index) => {
+                img.classList.add('fade-out');
+                setTimeout(() => {
+                    img.src = galleryContent[category].images[index];
+                    img.classList.remove('fade-out');
+                }, 400); 
+            });
+        }
+    </script>
+</body>
+</html>
